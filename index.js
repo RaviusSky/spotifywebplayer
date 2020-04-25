@@ -2,6 +2,7 @@ var http = require("http")
 var https = require("https")
 var fs = require("fs")
 var url = require("url")
+var querystring = require("querystring")
 
 port = process.env.PORT
 
@@ -25,10 +26,10 @@ http.createServer(function(req, res)
 	{
 		var authCode = url.parse(req.url, true).query.code
 		
-		var requestData = JSON.stringify({
-			grant_type: "authorization_code",
-			code: authCode,
-			redirect_uri: "https://spotifywebplayer.herokuapp.com"
+		var requestData = querystring.stringify({
+			'grant_type': "authorization_code",
+			'code': authCode,
+			'redirect_uri': "https://spotifywebplayer.herokuapp.com"
 		})
 		
 		var tokenOptions = {
