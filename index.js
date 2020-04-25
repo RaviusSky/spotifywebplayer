@@ -17,7 +17,7 @@ http.createServer(function(req, res)
 	}
 	if (req.url == "/")
 	{
-		res.write(fs.readFileSync(__dirname + "\\index.html", 'utf8'))
+		res.write(fs.readFileSync(__dirname + "/index.html", 'utf8'))
 	}
 	else
 	{
