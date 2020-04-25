@@ -52,6 +52,21 @@ http.createServer(function(req, res)
 			const getReq = https.request(options, getRes => {
 				getRes.setEncoding('utf8')
 
+				if (getRes.statusCode == "204")
+				{
+					res.write("STATUS_NO_SONG_PLAYING")
+					res.end()
+				}
+				else if (getRes.statusCode == "200")
+				{
+					//Do nothing, wait for data
+				}
+				else
+				{
+					res.write("STATUS_UNEXPECTED_"+getRes.statusCode)
+					res.end()
+				}
+
 				getRes.on("data", function(chunk) {
 					console.log(command+" response: "+chunk)
 
@@ -96,8 +111,6 @@ http.createServer(function(req, res)
 		var tokenReq = https.request(tokenOptions, tokenRes => {
 
 			tokenRes.setEncoding('utf8')
-
-			console.log("Token request status code: ${tokenRes.statusCode}")
 		
 			tokenRes.on("data", function(chunk) {
 				console.log("Response: "+chunk)
