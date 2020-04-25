@@ -104,7 +104,7 @@ http.createServer(function(req, res)
 		var requestData = querystring.stringify({
 			'grant_type': "authorization_code",
 			'code': authCode,
-			'redirect_uri': "https://spotifywebplayer.herokuapp.com"
+			'redirect_uri': "https://spotifywebplayer.herokuapp.com/"
 		})
 
 		var base64ClientAndSecret = Buffer.from(client_id + ":" + client_secret).toString("base64")
