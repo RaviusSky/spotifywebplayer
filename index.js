@@ -59,20 +59,18 @@ http.createServer(function(req, res)
 				}
 				else if (getRes.statusCode == "200")
 				{
-					//Do nothing, wait for data
+					getRes.on("data", function(chunk) {
+						console.log(command+" response: "+chunk)
+
+						res.write(chunk)
+						res.end()
+					})
 				}
 				else
 				{
 					res.write("STATUS_UNEXPECTED_"+getRes.statusCode)
 					res.end()
 				}
-
-				getRes.on("data", function(chunk) {
-					console.log(command+" response: "+chunk)
-
-					res.write(chunk)
-					res.end()
-				})
 			})
 
 			getReq.on("error", error => {
