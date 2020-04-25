@@ -98,6 +98,8 @@ http.createServer(function(req, res)
 	else if (req.url.split("?")[0] == "/token")
 	{
 		var authCode = url.parse(req.url, true).query.code
+
+		console.log(authCode)
 		
 		var requestData = querystring.stringify({
 			'grant_type': "authorization_code",
