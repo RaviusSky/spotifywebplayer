@@ -37,21 +37,21 @@ http.createServer(function(req, res)
 			method: "POST",
 			headers: {
 				"Authorization": "Basic " + btao(client_id),
-				"Content-Type": "application/x-www-form-urlencoded",
+				"Content-Type": "application/x-www-form-urlencoded"
 			}
-			
-			var tokenReq = https.request(tokenOptions, tokenRes => {
-				console.log("Token request status code: ${tokenRes.statusCode}")
-			
-				tokenRes.on("data", d => {
-					process.stdout.write(d)
-				})
-			})
-	
-			tokenReq.on("error", error => {
-				console.error(error)
-			})
 		}
+
+		var tokenReq = https.request(tokenOptions, tokenRes => {
+			console.log("Token request status code: ${tokenRes.statusCode}")
+		
+			tokenRes.on("data", d => {
+				process.stdout.write(d)
+			})
+		})
+
+		tokenReq.on("error", error => {
+			console.error(error)
+		})
 	}
 	if (req.url.split("?")[0] == "/")
 	{
