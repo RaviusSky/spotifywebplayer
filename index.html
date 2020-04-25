@@ -17,11 +17,11 @@
 		console.log(authCode)
 		console.log(token)
 
-		if (authCode == null and token == null)
+		if (authCode == null && token == null)
 		{
 			document.location.href = "/login"
 		}
-		else if (token == null and authCode != null)
+		else if (token == null && authCode != null)
 		{
 			document.location.href = "/token?code="+authCode
 		}
