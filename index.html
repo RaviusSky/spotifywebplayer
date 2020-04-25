@@ -10,6 +10,7 @@
 
 		window.onSpotifyWebPlaybackSDKReady = () => 
 		{
+			var url = window.location
 			var token = new URLSearchParams(url.search).get('token');
 
 			if (token == null)
