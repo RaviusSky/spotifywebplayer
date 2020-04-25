@@ -64,7 +64,7 @@ http.createServer(function(req, res)
 			tokenRes.on("data", function(chunk) {
 				console.log("Response: "+chunk)
 
-				res.write(chunk)
+				res.write(JSON.parse(chunk).access_token)
 				res.end()
 			})
 		})
