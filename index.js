@@ -43,10 +43,13 @@ http.createServer(function(req, res)
 		}
 
 		var tokenReq = https.request(tokenOptions, tokenRes => {
+
+			tokenRes.setEncoding('utf8')
+
 			console.log("Token request status code: ${tokenRes.statusCode}")
 		
-			tokenRes.on("data", d => {
-				process.stdout.write(d)
+			tokenRes.on("data", function(chunk) {
+				console.log("Response: "+chunk)
 			})
 		})
 
