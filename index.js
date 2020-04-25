@@ -9,6 +9,8 @@ port = process.env.PORT
 var client_id = "30860a4d8522424a887e9f91c975588f";
 var client_secret = "88bfbbc6ae4544519c86d54ba083a5e4";
 
+var authToken = "";
+
 http.createServer(function(req, res)
 {
 	console.log(req.url.split("?")[0])
@@ -28,6 +30,34 @@ http.createServer(function(req, res)
 	else if (req.url.split("?")[0] == "/api")
 	{
 		var command = url.parse(req.url, true).query.command
+
+		if (authToken == "")
+		{
+			res.write("ERROR_NO_VALID_AUTH_TOKENS");
+			res.end()
+		}
+
+		//Checks what song is currently playing
+		if (command == "playing")
+		{
+			const options = {
+				hostname: "api.spotify.com",
+				port: 443,
+				path: "/v1/me/player/currently-playing",
+				method: "GET"
+			}
+
+			const getReq = https.request(options, getRes => {
+				getRes.setEncoding('utf8')
+
+				getRes.on("data", function(chunk) {
+					console.log(command+" response: "+chunk)
+
+					res.write(chunk)
+					res.end()
+				})
+			})
+		}
 
 		res.write("COMMAND: "+command)
 		res.end()
