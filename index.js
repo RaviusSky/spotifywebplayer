@@ -62,13 +62,11 @@ http.createServer(function(req, res)
 				console.log("API_REQUEST_ERROR_"+command)
 
 				res.write("API_REQUEST_ERROR_"+command)
+				res.end()
 			})
 
 			getReq.end()
 		}
-
-		res.write("COMMAND: "+command)
-		res.end()
 	}
 	else if (req.url.split("?")[0] == "/token")
 	{
@@ -101,6 +99,8 @@ http.createServer(function(req, res)
 		
 			tokenRes.on("data", function(chunk) {
 				console.log("Response: "+chunk)
+
+				authToken = JSON.parse(chunk).access_token
 
 				res.writeHead(301, { Location: "/?token="+JSON.parse(chunk).access_token })
 				res.end()
