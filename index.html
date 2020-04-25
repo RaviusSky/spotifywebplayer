@@ -9,14 +9,18 @@
 
 	window.onSpotifyWebPlaybackSDKReady = () => 
 	{
-		var token = '';
+		var authCode = '';
 		var url = window.location
-		token = new URLSearchParams(url.search).get('code')
-		console.log(token)
+		authCode = new URLSearchParams(url.search).get('code')
+		console.log(authCode)
 
-		if (token == null || token == "")
+		if ((authCode == null || authCode == "") and (token == null || token == ""))
 		{
 			document.location.href = "/login"
+		}
+		else if ((token == null || token == "") and (authCode != null || authCode != ""))
+		{
+			document.location.href = "/token?code="+authCode
 		}
 		else
 		{
