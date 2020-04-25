@@ -17,7 +17,7 @@ http.createServer(function(req, res)
 	if (req.url.split("?")[0] == "/login")
 	{
 		
-		var redirect_uri = "https://spotifywebplayer.herokuapp.com/token"
+		var redirect_uri = "https://spotifywebplayer.herokuapp.com/token/"
 		var scopes = 'streaming user-read-email user-read-private user-read-playback-state user-read-currently-playing';
 		res.writeHead(301, { Location: 'https://accounts.spotify.com/authorize' +
 		'?response_type=code' +
