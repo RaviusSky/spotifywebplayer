@@ -17,7 +17,7 @@ http.createServer(function(req, res)
 	if (req.url.split("?")[0] == "/login")
 	{
 		
-		var redirect_uri = "https://spotifywebplayer.herokuapp.com/token/"
+		var redirect_uri = "https://spotifywebplayer.herokuapp.com/token"
 		var scopes = 'streaming user-read-email user-read-private user-read-playback-state user-read-currently-playing';
 		res.writeHead(301, { Location: 'https://accounts.spotify.com/authorize' +
 		'?response_type=code' +
@@ -104,7 +104,7 @@ http.createServer(function(req, res)
 		var requestData = querystring.stringify({
 			'grant_type': "authorization_code",
 			'code': authCode,
-			'redirect_uri': "https://spotifywebplayer.herokuapp.com/"
+			'redirect_uri': "https://spotifywebplayer.herokuapp.com"
 		})
 
 		var base64ClientAndSecret = Buffer.from(client_id + ":" + client_secret).toString("base64")
