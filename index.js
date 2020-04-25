@@ -1,10 +1,12 @@
 var http = require("http")
 var fs = require("fs")
 
+port = process.env.PORT
+
 http.createServer(function(req, res)
 {
-	console.log(req.url.parse(req.url).pathname)
-	if (req.url == "/login")
+	console.log(req.url.split("?")[0])
+	if (req.url.split("?")[0] == "/login")
 	{
 		var client_id = "30860a4d8522424a887e9f91c975588f";
 		var redirect_uri = "https://spotifywebplayer.herokuapp.com"
@@ -15,7 +17,7 @@ http.createServer(function(req, res)
 		(scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
 		'&redirect_uri=' + encodeURIComponent(redirect_uri)});
 	}
-	if (req.url.parse(req.url).pathname == "/")
+	if (req.url.split("?")[0] == "/")
 	{
 		res.write(fs.readFileSync(__dirname + "/index.html", 'utf8'))
 	}
@@ -33,4 +35,4 @@ http.createServer(function(req, res)
 
 	res.end()
 	
-}).listen(process.env.PORT)
+}).listen(port)
