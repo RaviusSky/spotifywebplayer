@@ -22,12 +22,15 @@ http.createServer(function(req, res)
 		'&client_id=' + client_id +
 		(scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
 		'&redirect_uri=' + encodeURIComponent(redirect_uri)});
+
+		res.end()
 	}
 	else if (req.url.split("?")[0] == "/api")
 	{
 		var command = url.parse(req.url, true).query.command
 
 		res.write("COMMAND: "+command)
+		res.end()
 	}
 	else if (req.url.split("?")[0] == "/token")
 	{
@@ -62,6 +65,7 @@ http.createServer(function(req, res)
 				console.log("Response: "+chunk)
 
 				res.write(chunk)
+				res.end()
 			})
 		})
 
@@ -75,20 +79,21 @@ http.createServer(function(req, res)
 	else if (req.url.split("?")[0] == "/")
 	{
 		res.write(fs.readFileSync(__dirname + "/index.html", 'utf8'))
+		res.end()
 	}
 	else
 	{
 		try
 		{
 			res.write(fs.readFileSync(__dirname + req.url))
+			res.end()
 		}
 		catch
 		{
 			res.write("404")
 			console.log("Unknown url: " + req.url)
+			res.end()
 		}
 	}
-
-	res.end()
 	
 }).listen(port)
