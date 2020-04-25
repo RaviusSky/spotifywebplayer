@@ -23,6 +23,12 @@ http.createServer(function(req, res)
 		(scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
 		'&redirect_uri=' + encodeURIComponent(redirect_uri)});
 	}
+	else if (req.url.split("?")[0] == "/api")
+	{
+		var command = url.parse(req.url, true).query.command
+
+		res.write("COMMAND: "+command)
+	}
 	else if (req.url.split("?")[0] == "/token")
 	{
 		var authCode = url.parse(req.url, true).query.code
@@ -54,6 +60,8 @@ http.createServer(function(req, res)
 		
 			tokenRes.on("data", function(chunk) {
 				console.log("Response: "+chunk)
+
+				res.write(chunk)
 			})
 		})
 
