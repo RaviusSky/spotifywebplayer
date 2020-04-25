@@ -125,10 +125,21 @@ http.createServer(function(req, res)
 			tokenRes.on("data", function(chunk) {
 				console.log("Response: "+chunk)
 
-				authToken = JSON.parse(chunk).access_token
+				try
+				{
+					authToken = JSON.parse(chunk).access_token
 
-				res.write(JSON.parse(chunk).access_token)
-				res.end()
+					res.write(JSON.parse(chunk).access_token)
+					res.end()
+				}
+				catch
+				{
+					console.log("ERROR_"+chunk)
+					res.write("ERROR_GETTING_TOKEN")
+					res.write(chunk)
+					res.end()
+				}
+				
 			})
 		})
 
