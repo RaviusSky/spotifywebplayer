@@ -21,7 +21,7 @@ http.createServer(function(req, res)
 		(scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
 		'&redirect_uri=' + encodeURIComponent(redirect_uri)});
 	}
-	if (req.url.split("?")[0] == "/token")
+	else if (req.url.split("?")[0] == "/token")
 	{
 		var authCode = url.parse(req.url, true).query.code
 		
@@ -37,7 +37,7 @@ http.createServer(function(req, res)
 			path: "/api/token",
 			method: "POST",
 			headers: {
-				"Authorization": "Basic " + btoa(client_id),
+				"Authorization": "Basic " + Buffer.from(client_id).toString("base64"),
 				"Content-Type": "application/x-www-form-urlencoded"
 			}
 		}
@@ -54,7 +54,7 @@ http.createServer(function(req, res)
 			console.error(error)
 		})
 	}
-	if (req.url.split("?")[0] == "/")
+	else if (req.url.split("?")[0] == "/")
 	{
 		res.write(fs.readFileSync(__dirname + "/index.html", 'utf8'))
 	}
@@ -66,7 +66,8 @@ http.createServer(function(req, res)
 		}
 		catch
 		{
-			console.log("Uknown url: " + req.url)
+			res.write("404")
+			console.log("Unknown url: " + req.url)
 		}
 	}
 
