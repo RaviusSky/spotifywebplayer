@@ -7,6 +7,7 @@ var querystring = require("querystring")
 port = process.env.PORT
 
 var client_id = "30860a4d8522424a887e9f91c975588f";
+var client_secret = "88bfbbc6ae4544519c86d54ba083a5e4";
 
 http.createServer(function(req, res)
 {
@@ -31,6 +32,9 @@ http.createServer(function(req, res)
 			'code': authCode,
 			'redirect_uri': "https://spotifywebplayer.herokuapp.com"
 		})
+
+		var base64Client = Buffer.from(client_id).toString("base64")
+		var base64ClientSecret = Buffer.from(client_secret).toString("base64")
 		
 		var tokenOptions = {
 			hostname: "accounts.spotify.com",
@@ -38,7 +42,7 @@ http.createServer(function(req, res)
 			path: "/api/token",
 			method: "POST",
 			headers: {
-				"Authorization": "Basic " + Buffer.from(client_id).toString("base64"),
+				"Authorization": "Basic " + base64Client,
 				"Content-Type": "application/x-www-form-urlencoded"
 			}
 		}
