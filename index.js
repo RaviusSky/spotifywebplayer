@@ -30,7 +30,7 @@ http.createServer(function(req, res)
 			redirect_uri: "https://spotifywebplayer.herokuapp.com"
 		})
 		
-		const tokenOptions = {
+		var tokenOptions = {
 			hostname: "accounts.spotify.com",
 			port: 443,
 			path: "/api/token",
@@ -40,7 +40,7 @@ http.createServer(function(req, res)
 				"Content-Type": "application/x-www-form-urlencoded",
 			}
 			
-			const tokenReq = https.request(tokenOptions, tokenRes => {
+			var tokenReq = https.request(tokenOptions, tokenRes => {
 				console.log("Token request status code: ${tokenRes.statusCode}")
 			
 				tokenRes.on("data", d => {
