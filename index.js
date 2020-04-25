@@ -56,6 +56,9 @@ http.createServer(function(req, res)
 		tokenReq.on("error", error => {
 			console.error(error)
 		})
+
+		tokenReq.write(requestData)
+		tokenReq.end()
 	}
 	else if (req.url.split("?")[0] == "/")
 	{
