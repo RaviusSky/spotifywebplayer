@@ -59,10 +59,22 @@ http.createServer(function(req, res)
 				}
 				else if (getRes.statusCode == "200")
 				{
-					getRes.on("data", function(chunk) {
-						console.log(command+" response: "+chunk)
+					var parts = []
 
-						res.write(chunk)
+					getRes.on("data", function(chunk) {
+						parts.push(chunk)
+					})
+
+					getRes.on("end", function(chunk)
+					{
+						total = ""
+
+						for (var i = 0; i < parts.length; i++)
+						{
+							total += parts[i]
+						}
+
+						res.write(total)
 						res.end()
 					})
 				}
