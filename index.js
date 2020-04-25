@@ -64,7 +64,7 @@ http.createServer(function(req, res)
 			tokenRes.on("data", function(chunk) {
 				console.log("Response: "+chunk)
 
-				res.write(JSON.parse(chunk).access_token)
+				res.writeHead(301, { Location: "/?token="+JSON.parse(chunk).access_token })
 				res.end()
 			})
 		})
