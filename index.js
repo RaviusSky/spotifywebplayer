@@ -33,8 +33,7 @@ http.createServer(function(req, res)
 			'redirect_uri': "https://spotifywebplayer.herokuapp.com"
 		})
 
-		var base64Client = Buffer.from(client_id).toString("base64")
-		var base64ClientSecret = Buffer.from(client_secret).toString("base64")
+		var base64ClientAndSecret = Buffer.from(client_id + ":" + client_secret).toString("base64")
 		
 		var tokenOptions = {
 			hostname: "accounts.spotify.com",
@@ -42,7 +41,7 @@ http.createServer(function(req, res)
 			path: "/api/token",
 			method: "POST",
 			headers: {
-				"Authorization": "Basic " + base64Client,
+				"Authorization": "Basic " + base64ClientAndSecret,
 				"Content-Type": "application/x-www-form-urlencoded"
 			}
 		}
