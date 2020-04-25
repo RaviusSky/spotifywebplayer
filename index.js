@@ -94,6 +94,16 @@ http.createServer(function(req, res)
 
 			getReq.end()
 		}
+		else if (command == "play")
+		{
+			res.write("API_PLACEHOLDER_RESPONSE")
+			res.end()
+		}
+		else
+		{
+			res.write("API_INVALID_COMMAND")
+			res.end()
+		}
 	}
 	else if (req.url.split("?")[0] == "/token")
 	{
