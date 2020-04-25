@@ -57,6 +57,14 @@ http.createServer(function(req, res)
 					res.end()
 				})
 			})
+
+			getReq.on("error", error => {
+				console.log("API_REQUEST_ERROR_"+command)
+
+				res.write("API_REQUEST_ERROR_"+command)
+			})
+
+			getReq.end()
 		}
 
 		res.write("COMMAND: "+command)
