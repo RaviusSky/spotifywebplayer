@@ -37,7 +37,7 @@ http.createServer(function(req, res)
 			path: "/api/token",
 			method: "POST",
 			headers: {
-				"Authorization": "Basic " + btao(client_id),
+				"Authorization": "Basic " + btoa(client_id),
 				"Content-Type": "application/x-www-form-urlencoded"
 			}
 		}
