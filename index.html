@@ -9,23 +9,18 @@
 
 	window.onSpotifyWebPlaybackSDKReady = () => 
 	{
-		var url = window.location
+		requestAuthCode()
 
-		var authCode = new URLSearchParams(url.search).get('code');
-		var token = new URLSearchParams(url.search).get('token');
-
-		console.log(authCode)
-		console.log(token)
-
-		if (authCode == null && token == null)
+		function requestToken()
 		{
-			document.location.href = "/login"
+			$.get("/login", function(res)
+			{
+				console.log(res)
+				initPlayer(res)
+			})
 		}
-		else if (token == null && authCode != null)
-		{
-			document.location.href = "/token?code="+authCode
-		}
-		else if (token != null)
+
+		function initPlayer(token)
 		{
 			const player = new Spotify.Player({ name: 'Spotify Web Player', getOAuthToken: cb => { cb(token); }});
 
