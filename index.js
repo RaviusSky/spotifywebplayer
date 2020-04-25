@@ -131,7 +131,7 @@ http.createServer(function(req, res)
 				{
 					authToken = JSON.parse(chunk).access_token
 
-					res.writeHead(301, { Location: "?token="+authToken })
+					res.writeHead(301, { Location: "/?token="+authToken })
 					res.end()
 				}
 				catch
