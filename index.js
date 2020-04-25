@@ -3,7 +3,7 @@ var fs = require("fs")
 
 http.createServer(function(req, res)
 {
-	console.log(req.url)
+	console.log(req.url.parse(req.url).pathname)
 	if (req.url == "/login")
 	{
 		var client_id = "30860a4d8522424a887e9f91c975588f";
@@ -15,7 +15,7 @@ http.createServer(function(req, res)
 		(scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
 		'&redirect_uri=' + encodeURIComponent(redirect_uri)});
 	}
-	if (req.url == "/")
+	if (req.url.parse(req.url).pathname == "/")
 	{
 		res.write(fs.readFileSync(__dirname + "/index.html", 'utf8'))
 	}
