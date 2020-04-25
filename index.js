@@ -35,10 +35,9 @@ http.createServer(function(req, res)
 		{
 			res.write("ERROR_NO_VALID_AUTH_TOKENS");
 			res.end()
-		}
 
-		//Checks what song is currently playing
-		if (command == "playing")
+		}
+		else if (command == "playing") //Checks what song is currently playing
 		{
 			const options = {
 				hostname: "api.spotify.com",
