@@ -43,7 +43,10 @@ http.createServer(function(req, res)
 				hostname: "api.spotify.com",
 				port: 443,
 				path: "/v1/me/player/currently-playing",
-				method: "GET"
+				method: "GET",
+				headers: {
+					Authorization: "Bearer " + authToken
+				}
 			}
 
 			const getReq = https.request(options, getRes => {
