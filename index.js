@@ -22,7 +22,7 @@ http.createServer(function(req, res)
 	}
 	if (req.url.split("?")[0] == "/token")
 	{
-		var authCode = url.parse(req.url, true).query.code
+		var authCode = req.url.parse(req.url, true).query.code
 		
 		var requestData = JSON.stringify({
 			grant_type: "authorization_code",
