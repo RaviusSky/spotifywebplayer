@@ -18,7 +18,7 @@ http.createServer(function(req, res)
 	{
 		
 		var redirect_uri = "https://spotifywebplayer.herokuapp.com"
-		var scopes = 'streaming user-read-email user-read-private';
+		var scopes = 'streaming user-read-email user-read-private user-read-playback-state user-read-currently-playing';
 		res.writeHead(301, { Location: 'https://accounts.spotify.com/authorize' +
 		'?response_type=code' +
 		'&client_id=' + client_id +
