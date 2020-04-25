@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>PF Spotify Player</title>
+<title>Spotify Web Player</title>
 </head>
 <body>
 
@@ -9,22 +9,25 @@
 
 	window.onSpotifyWebPlaybackSDKReady = () => 
 	{
-		var authCode = '';
 		var url = window.location
-		authCode = new URLSearchParams(url.search).get('code')
-		console.log(authCode)
 
-		if ((authCode == null || authCode == "") and (token == null || token == ""))
+		var authCode = new URLSearchParams(url.search).get('code');
+		var token = new URLSearchParams(url.search).get('token');
+
+		console.log(authCode)
+		console.log(token)
+
+		if (authCode == null and token == null)
 		{
 			document.location.href = "/login"
 		}
-		else if ((token == null || token == "") and (authCode != null || authCode != ""))
+		else if (token == null and authCode != null)
 		{
 			document.location.href = "/token?code="+authCode
 		}
-		else
+		else if (token != null)
 		{
-			const player = new Spotify.Player({ name: 'Teamspeak Spotify Player', getOAuthToken: cb => { cb(token); }});
+			const player = new Spotify.Player({ name: 'Spotify Web Player', getOAuthToken: cb => { cb(token); }});
 
 			// Error handling
 			player.addListener('initialization_error', ({ message }) => { console.error(message); });
