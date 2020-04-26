@@ -122,7 +122,7 @@ http.createServer(function(req, res)
 				}
 			}
 
-			console.log("Play Request Data: "+data.stringify())
+			console.log("Play Request Data: "+JSON.stringify(data))
 
 			if (selectedClientId == "")
 			{
