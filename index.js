@@ -415,67 +415,86 @@ http.createServer(function(req, res)
 		}
 		else if (command == "search")
 		{
-			var searchQuery = null
+			var name = null
+			var artist = null
+			var type = null
 
 			try
 			{
-				searchQuery = url.parse(req.url, true).query.search
+				name = url.parse(req.url, true).query.name
+				type = url.parse(req.url, true).query.type
 			}
-			catch
+			catch {}
+
+			query = "name:"+name+"&type="
+
+			if (name == null)
 			{
-				console.log("No playobject specified")
+				res.write("NAME_MUST_BE_SPECIFIED")
+				res.end()
 			}
-
-			const options = {
-				hostname: "api.spotify.com",
-				port: 443,
-				path: "/v1/search?q=name:"+escape(searchQuery)+"&type=album,track",
-				method: "GET",
-				headers: {
-					Authorization: "Bearer " + authToken
-				}
-			}
-
-			const getReq = https.request(options, getRes => {
-
-				getRes.setEncoding('utf8')
-
-				if (getRes.statusCode == "200")
+			else
+			{
+				if (type != null)
 				{
-					var parts = []
-
-					getRes.on("data", function(chunk) {
-						parts.push(chunk)
-					})
-
-					getRes.on("end", function(chunk)
-					{
-						total = ""
-
-						for (var i = 0; i < parts.length; i++)
-						{
-							total += parts[i]
-						}
-
-						res.write(total)
-						res.end()
-					})
+					query += type
 				}
 				else
 				{
-					res.write("STATUS_UNEXPECTED_"+getRes.statusCode)
-					res.end()
+					query += "track"
 				}
-			})
 
-			getReq.on("error", error => {
-				console.log("API_REQUEST_ERROR_"+command)
+				const options = {
+					hostname: "api.spotify.com",
+					port: 443,
+					path: "/v1/search?q="+query,
+					method: "GET",
+					headers: {
+						Authorization: "Bearer " + authToken
+					}
+				}
 
-				res.write("API_REQUEST_ERROR_"+command)
-				res.end()
-			})
+				const getReq = https.request(options, getRes => {
 
-			getReq.end()
+					getRes.setEncoding('utf8')
+
+					if (getRes.statusCode == "200")
+					{
+						var parts = []
+
+						getRes.on("data", function(chunk) {
+							parts.push(chunk)
+						})
+
+						getRes.on("end", function(chunk)
+						{
+							total = ""
+
+							for (var i = 0; i < parts.length; i++)
+							{
+								total += parts[i]
+							}
+
+							res.write(total)
+							res.end()
+						})
+					}
+					else
+					{
+						res.write("STATUS_UNEXPECTED_"+getRes.statusCode)
+						res.end()
+					}
+				})
+
+				getReq.on("error", error => {
+					console.log("API_REQUEST_ERROR_"+command)
+
+					res.write("API_REQUEST_ERROR_"+command)
+					res.end()
+				})
+
+				getReq.end()
+			}
 		}
 		else
 		{
