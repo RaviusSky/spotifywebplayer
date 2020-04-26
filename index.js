@@ -144,7 +144,7 @@ http.createServer(function(req, res)
 				getReq.end()
 			}
 		}
-		else if (command == "queue")
+		else if (command == "queue") //Set next song
 		{
 			var playObject = null
 
@@ -412,6 +412,70 @@ http.createServer(function(req, res)
 
 				getReq.end()
 			}
+		}
+		else if (command == "search")
+		{
+			var searchQuery = null
+
+			try
+			{
+				searchQuery = url.parse(req.url, true).query.search
+			}
+			catch
+			{
+				console.log("No playobject specified")
+			}
+
+			const options = {
+				hostname: "api.spotify.com",
+				port: 443,
+				path: "/v1/search?q="+searchQuery,
+				method: "GET",
+				headers: {
+					Authorization: "Bearer " + authToken
+				}
+			}
+
+			const getReq = https.request(options, getRes => {
+
+				getRes.setEncoding('utf8')
+
+				if (getRes.statusCode == "200")
+				{
+					var parts = []
+
+					getRes.on("data", function(chunk) {
+						parts.push(chunk)
+					})
+
+					getRes.on("end", function(chunk)
+					{
+						total = ""
+
+						for (var i = 0; i < parts.length; i++)
+						{
+							total += parts[i]
+						}
+
+						res.write(total)
+						res.end()
+					})
+				}
+				else
+				{
+					res.write("STATUS_UNEXPECTED_"+getRes.statusCode)
+					res.end()
+				}
+			})
+
+			getReq.on("error", error => {
+				console.log("API_REQUEST_ERROR_"+command)
+
+				res.write("API_REQUEST_ERROR_"+command)
+				res.end()
+			})
+
+			getReq.end()
 		}
 		else
 		{
