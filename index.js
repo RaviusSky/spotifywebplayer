@@ -97,6 +97,33 @@ http.createServer(function(req, res)
 		}
 		else if (command == "play") //Resumes song if possible
 		{
+			var playObject = null
+
+			try
+			{
+				playObject = url.parse(req.url, true).query.playObject
+			}
+			catch
+			{
+				console.log("No playobject specified")
+			}
+
+			var data = {}
+
+			if (playObject != null)
+			{
+				if (playObject.includes("track"))
+				{
+					data.uris = [playObject]
+				}
+				else
+				{
+					data.context_uri = playObject
+				}
+			}
+
+			console.log("Play Request Data: "+data.stringify())
+
 			if (selectedClientId == "")
 			{
 				res.write("NO_CLIENT_ID_SET")
@@ -149,6 +176,7 @@ http.createServer(function(req, res)
 					res.end()
 				})
 
+				getReq.write(data)
 				getReq.end()
 			}
 		}
