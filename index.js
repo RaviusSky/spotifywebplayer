@@ -122,7 +122,7 @@ http.createServer(function(req, res)
 						res.write("DEVICE_NOT_FOUND")
 						res.end()
 					}
-					else if (getRes.statusCode == "200" || getRes.statusCode == "204")
+					else if (getRes.statusCode == "200" || getRes.statusCode = "204")
 					{
 						res.write("SONG_PAUSED")
 						res.end()
@@ -174,7 +174,7 @@ http.createServer(function(req, res)
 				const options = {
 					hostname: "api.spotify.com",
 					port: 443,
-					path: "/v1/me/player/pause?device_id="+selectedClientId+"&uri="+playObject,
+					path: "/v1/me/player/queue?device_id="+selectedClientId+"&uri="+playObject,
 					method: "POST",
 					headers: {
 						Authorization: "Bearer " + authToken
