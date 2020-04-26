@@ -97,48 +97,56 @@ http.createServer(function(req, res)
 		}
 		else if (command == "play") //Resumes song if possible
 		{
-			const options = {
-				hostname: "api.spotify.com",
-				port: 443,
-				path: "/v1/me/player/play",
-				method: "GET",
-				headers: {
-					Authorization: "Bearer " + authToken
-				}
-			}
-
-			const getReq = https.request(options, getRes => {
-
-				if (getRes.statusCode == "204")
-				{
-					res.write("STATUS_NO_SONG_PLAYING")
-					res.end()
-				}
-				else if (getRes.statusCode == "200")
-				{
-					res.write("PLAYING_SONG")
-					res.end()
-				}
-				else if (getRes.statusCode == "404")
-				{
-					res.write("NO_DEVICE_CONNTECTED")
-					res.end()
-				}
-				else
-				{
-					res.write("STATUS_UNEXPECTED_"+getRes.statusCode)
-					res.end()
-				}
-			})
-
-			getReq.on("error", error => {
-				console.log("API_REQUEST_ERROR_"+command)
-
-				res.write("API_REQUEST_ERROR_"+command)
+			if (selectedClientId == "")
+			{
+				res.write("NO_CLIENT_ID_SET")
 				res.end()
-			})
+			}
+			else
+			{
+				const options = {
+					hostname: "api.spotify.com",
+					port: 443,
+					path: "/v1/me/player/play?device_id="+selectedClientId,
+					method: "GET",
+					headers: {
+						Authorization: "Bearer " + authToken
+					}
+				}
 
-			getReq.end()
+				const getReq = https.request(options, getRes => {
+
+					if (getRes.statusCode == "204")
+					{
+						res.write("STATUS_NO_SONG_PLAYING")
+						res.end()
+					}
+					else if (getRes.statusCode == "200")
+					{
+						res.write("PLAYING_SONG")
+						res.end()
+					}
+					else if (getRes.statusCode == "404")
+					{
+						res.write("NO_DEVICE_CONNTECTED")
+						res.end()
+					}
+					else
+					{
+						res.write("STATUS_UNEXPECTED_"+getRes.statusCode)
+						res.end()
+					}
+				})
+
+				getReq.on("error", error => {
+					console.log("API_REQUEST_ERROR_"+command)
+
+					res.write("API_REQUEST_ERROR_"+command)
+					res.end()
+				})
+
+				getReq.end()
+			}
 		}
 		else if (command == "setdevice")
 		{
@@ -170,7 +178,7 @@ http.createServer(function(req, res)
 				if (getRes.statusCode == "200")
 				{
 					var parts = []
-					
+
 					getRes.on("data", function(chunk) {
 						parts.push(chunk)
 					})
