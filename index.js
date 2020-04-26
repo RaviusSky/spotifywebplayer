@@ -207,7 +207,6 @@ http.createServer(function(req, res)
 					res.end()
 				})
 
-				getReq.write(JSON.stringify("{}"))
 				getReq.end()
 			}
 		}
