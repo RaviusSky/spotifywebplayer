@@ -157,7 +157,7 @@ http.createServer(function(req, res)
 				headers: {
 					Authorization: "Bearer " + authToken,
 					Accept: "application/json",
-					Content-Type: "application/json"
+					"Content-Type": "application/json"
 				}
 			}
 
