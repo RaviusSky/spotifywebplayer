@@ -137,6 +137,8 @@ http.createServer(function(req, res)
 				res.write("API_REQUEST_ERROR_"+command)
 				res.end()
 			})
+
+			getReq.end()
 		}
 		else if (command == "setdevice")
 		{
@@ -164,8 +166,6 @@ http.createServer(function(req, res)
 			const getReq = https.request(options, getRes => {
 
 				getRes.setEncoding('utf8')
-
-				console.log(getRes.statusCode)
 
 				if (getRes.statusCode == "200")
 				{
@@ -199,6 +199,8 @@ http.createServer(function(req, res)
 				res.write("API_REQUEST_ERROR_"+command)
 				res.end()
 			})
+
+			getReq.end()
 		}
 		else
 		{
