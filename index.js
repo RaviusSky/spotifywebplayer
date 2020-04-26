@@ -174,7 +174,7 @@ http.createServer(function(req, res)
 				const options = {
 					hostname: "api.spotify.com",
 					port: 443,
-					path: "/v1/me/player/queue?device_id="+selectedClientId+"&uri="+playObject,
+					path: "/v1/me/player/queue?device_id="+escape(selectedClientId)+"&uri="+escape(playObject),
 					method: "POST",
 					headers: {
 						Authorization: "Bearer " + authToken
