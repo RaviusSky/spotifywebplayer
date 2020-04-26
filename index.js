@@ -95,7 +95,7 @@ http.createServer(function(req, res)
 
 			getReq.end()
 		}
-		else if (command == "play")
+		else if (command == "play") //Resumes song if possible
 		{
 			const options = {
 				hostname: "api.spotify.com",
@@ -123,6 +123,61 @@ http.createServer(function(req, res)
 				{
 					res.write("NO_DEVICE_CONNTECTED")
 					res.end()
+				}
+				else
+				{
+					res.write("STATUS_UNEXPECTED_"+getRes.statusCode)
+					res.end()
+				}
+			})
+
+			getReq.on("error", error => {
+				console.log("API_REQUEST_ERROR_"+command)
+
+				res.write("API_REQUEST_ERROR_"+command)
+				res.end()
+			})
+		}
+		else if (command == "setdevice")
+		{
+			var device_id = url.parse(req.url, true).query.device_id
+
+			selectedClientId = device_id
+		}
+		else if (command == "devices")
+		{
+			const options = {
+				hostname: "api.spotify.com",
+				port: 443,
+				path: "/v1/me/player/devices",
+				method: "GET",
+				headers: {
+					Authorization: "Bearer " + authToken
+				}
+			}
+
+			const getReq = https.request(options, getRes => {
+
+				getRes.setEncoding('utf8')
+
+				if (getRes.statusCode == "200")
+				{
+					getRes.on("data", function(chunk) {
+						parts.push(chunk)
+					})
+
+					getRes.on("end", function(chunk)
+					{
+						total = ""
+
+						for (var i = 0; i < parts.length; i++)
+						{
+							total += parts[i]
+						}
+
+						res.write(total)
+						res.end()
+					})
 				}
 				else
 				{
