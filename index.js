@@ -110,9 +110,11 @@ http.createServer(function(req, res)
 					hostname: "api.spotify.com",
 					port: 443,
 					path: "/v1/me/player/play?device_id="+selectedClientId,
-					method: "GET",
+					method: "PUT",
 					headers: {
-						Authorization: "Bearer " + authToken
+						Authorization: "Bearer " + authToken,
+						Accept: "application/json",
+						"Content-Type": "application/json"
 					}
 				}
 
