@@ -444,6 +444,8 @@ http.createServer(function(req, res)
 					query += "track"
 				}
 
+				console.log("Search Query "+escape(query))
+
 				const options = {
 					hostname: "api.spotify.com",
 					port: 443,
