@@ -169,6 +169,8 @@ http.createServer(function(req, res)
 
 				if (getRes.statusCode == "200")
 				{
+					var parts = []
+					
 					getRes.on("data", function(chunk) {
 						parts.push(chunk)
 					})
