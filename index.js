@@ -10,6 +10,7 @@ var client_id = "30860a4d8522424a887e9f91c975588f";
 var client_secret = "88bfbbc6ae4544519c86d54ba083a5e4";
 
 var authToken = "";
+var selectedClientId = "";
 
 http.createServer(function(req, res)
 {
@@ -18,7 +19,7 @@ http.createServer(function(req, res)
 	{
 		
 		var redirect_uri = "https://spotifywebplayer.herokuapp.com/token"
-		var scopes = 'streaming user-read-email user-read-private user-read-playback-state user-read-currently-playing';
+		var scopes = 'streaming user-read-email user-read-private user-read-playback-state user-read-currently-playing user-modify-playback-state';
 		res.writeHead(301, { Location: 'https://accounts.spotify.com/authorize' +
 		'?response_type=code' +
 		'&client_id=' + client_id +
@@ -96,8 +97,46 @@ http.createServer(function(req, res)
 		}
 		else if (command == "play")
 		{
-			res.write("API_PLACEHOLDER_RESPONSE")
-			res.end()
+			const options = {
+				hostname: "api.spotify.com",
+				port: 443,
+				path: "/v1/me/player/play",
+				method: "GET",
+				headers: {
+					Authorization: "Bearer " + authToken
+				}
+			}
+
+			const getReq = https.request(options, getRes => {
+
+				if (getRes.statusCode == "204")
+				{
+					res.write("STATUS_NO_SONG_PLAYING")
+					res.end()
+				}
+				else if (getRes.statusCode == "200")
+				{
+					res.write("PLAYING_SONG")
+					res.end()
+				}
+				else if (getRes.statusCode == "404")
+				{
+					res.write("NO_DEVICE_CONNTECTED")
+					res.end()
+				}
+				else
+				{
+					res.write("STATUS_UNEXPECTED_"+getRes.statusCode)
+					res.end()
+				}
+			})
+
+			getReq.on("error", error => {
+				console.log("API_REQUEST_ERROR_"+command)
+
+				res.write("API_REQUEST_ERROR_"+command)
+				res.end()
+			})
 		}
 		else
 		{
