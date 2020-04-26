@@ -173,7 +173,7 @@ http.createServer(function(req, res)
 				const options = {
 					hostname: "api.spotify.com",
 					port: 443,
-					path: "/v1/me/player/pause?device_id="+selectedClientId+"&track="+playObject,
+					path: "/v1/me/player/pause?device_id="+selectedClientId+"&uri="+playObject,
 					method: "POST",
 					headers: {
 						Authorization: "Bearer " + authToken
@@ -207,6 +207,7 @@ http.createServer(function(req, res)
 					res.end()
 				})
 
+				getReq.write(JSON.stringify("{}"))
 				getReq.end()
 			}
 		}
