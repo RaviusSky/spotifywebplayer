@@ -154,7 +154,7 @@ http.createServer(function(req, res)
 
 			selectedClientId = device_id
 
-			res.write("DEVICE_ID_SET")
+			res.write("DEVICE_ID_SET_"+device_id)
 			res.end()
 		}
 		else if (command == "devices")
@@ -211,6 +211,10 @@ http.createServer(function(req, res)
 			})
 
 			getReq.end()
+		}
+		else if (command == "next")
+		{
+			
 		}
 		else
 		{
