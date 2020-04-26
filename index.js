@@ -426,7 +426,7 @@ http.createServer(function(req, res)
 			}
 			catch {}
 
-			query = "name:"+name+"&type="
+			query = name+"&type="
 
 			if (name == null)
 			{
