@@ -108,17 +108,21 @@ http.createServer(function(req, res)
 				console.log("No playobject specified")
 			}
 
-			var data = {}
+			var data = querystring.stringify({})
 
 			if (playObject != null)
 			{
 				if (playObject.includes("track"))
 				{
-					data.uris = [playObject]
+					data = querystring.stringify({
+						"uris": [playObject]
+					})
 				}
 				else
 				{
-					data.context_uri = playObject
+					data = querystring.stringify({
+						"context_uri": playObject
+					})
 				}
 			}
 
