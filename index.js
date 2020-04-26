@@ -426,7 +426,6 @@ http.createServer(function(req, res)
 			}
 			catch {}
 
-			query = name+"&type="
 
 			if (name == null)
 			{
@@ -435,21 +434,15 @@ http.createServer(function(req, res)
 			}
 			else
 			{
-				if (type != null)
+				if (type == null)
 				{
-					query += type
+					type="track"
 				}
-				else
-				{
-					query += "track"
-				}
-
-				console.log("Search Query "+escape(query))
 
 				const options = {
 					hostname: "api.spotify.com",
 					port: 443,
-					path: "/v1/search?q="+escape(query),
+					path: "/v1/search?q="+escape(name)+"&type="+escape(type),
 					method: "GET",
 					headers: {
 						Authorization: "Bearer " + authToken
