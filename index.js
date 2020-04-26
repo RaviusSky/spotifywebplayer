@@ -122,7 +122,7 @@ http.createServer(function(req, res)
 						res.write("DEVICE_NOT_FOUND")
 						res.end()
 					}
-					else if (getRes.statusCode == "200")
+					else if (getRes.statusCode == "200" || getRes.statusCode = "204")
 					{
 						res.write("SONG_PAUSED")
 						res.end()
@@ -151,6 +151,7 @@ http.createServer(function(req, res)
 			try
 			{
 				playObject = url.parse(req.url, true).query.playObject
+				console.log("Setting next song to "+playObject)
 			}
 			catch
 			{
@@ -390,7 +391,7 @@ http.createServer(function(req, res)
 						res.write("DEVICE_NOT_FOUND")
 						res.end()
 					}
-					else if (getRes.statusCode == "200")
+					else if (getRes.statusCode == "200" || getRes.statusCode == "204")
 					{
 						res.write("SKIPPING_SONG")
 						res.end()
