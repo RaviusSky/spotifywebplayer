@@ -165,6 +165,8 @@ http.createServer(function(req, res)
 
 				getRes.setEncoding('utf8')
 
+				console.log(getRes.statusCode)
+
 				if (getRes.statusCode == "200")
 				{
 					getRes.on("data", function(chunk) {
