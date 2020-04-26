@@ -95,7 +95,7 @@ http.createServer(function(req, res)
 
 			getReq.end()
 		}
-		else if (command == "pause")
+		else if (command == "pause") //Pauses song if possible
 		{
 			if (selectedClientId == "")
 			{
@@ -233,7 +233,7 @@ http.createServer(function(req, res)
 				getReq.end()
 			}
 		}
-		else if (command == "setdevice")
+		else if (command == "setdevice") //Set current device to play on
 		{
 			var device_id = url.parse(req.url, true).query.device_id
 
@@ -242,7 +242,7 @@ http.createServer(function(req, res)
 			res.write("DEVICE_ID_SET_"+device_id)
 			res.end()
 		}
-		else if (command == "devices")
+		else if (command == "devices") //Returns list of devices
 		{
 			const options = {
 				hostname: "api.spotify.com",
@@ -297,9 +297,54 @@ http.createServer(function(req, res)
 
 			getReq.end()
 		}
-		else if (command == "next")
+		else if (command == "next") //Sets next playing song
 		{
+			if (selectedClientId == "")
+			{
+				res.write("NO_CLIENT_ID_SET")
+				res.end()
+			}
+			else
+			{
+				const options = {
+					hostname: "api.spotify.com",
+					port: 443,
+					path: "/v1/me/player/next?device_id="+selectedClientId,
+					method: "POST",
+					headers: {
+						Authorization: "Bearer " + authToken
+					}
+				}
 
+				const getReq = https.request(options, getRes => {
+					getRes.setEncoding('utf8')
+
+					if (getRes.statusCode == "404")
+					{
+						res.write("DEVICE_NOT_FOUND")
+						res.end()
+					}
+					else if (getRes.statusCode == "200")
+					{
+						res.write("SKIPPING_SONG")
+						res.end()
+					}
+					else
+					{
+						res.write("STATUS_UNEXPECTED_"+getRes.statusCode)
+						res.end()
+					}
+				})
+
+				getReq.on("error", error => {
+					console.log("API_REQUEST_ERROR_"+command)
+
+					res.write("API_REQUEST_ERROR_"+command)
+					res.end()
+				})
+
+				getReq.end()
+			}
 		}
 		else
 		{
