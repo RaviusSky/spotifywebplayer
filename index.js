@@ -104,6 +104,8 @@ http.createServer(function(req, res)
 			}
 			else
 			{
+				console.log("Resuming on device "+selectedClientId)
+
 				const options = {
 					hostname: "api.spotify.com",
 					port: 443,
@@ -214,7 +216,7 @@ http.createServer(function(req, res)
 		}
 		else if (command == "next")
 		{
-			
+
 		}
 		else
 		{
