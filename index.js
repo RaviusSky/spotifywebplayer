@@ -143,6 +143,9 @@ http.createServer(function(req, res)
 			var device_id = url.parse(req.url, true).query.device_id
 
 			selectedClientId = device_id
+
+			res.write("DEVICE_ID_SET")
+			res.end()
 		}
 		else if (command == "devices")
 		{
@@ -152,7 +155,9 @@ http.createServer(function(req, res)
 				path: "/v1/me/player/devices",
 				method: "GET",
 				headers: {
-					Authorization: "Bearer " + authToken
+					Authorization: "Bearer " + authToken,
+					Accept: "application/json",
+					Content-Type: "application/json"
 				}
 			}
 
